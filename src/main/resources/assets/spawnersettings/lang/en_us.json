@@ -1,0 +1,15 @@
+{
+	"container.spawner" : "Spawner",
+	
+	"container.button.save" : "Save",
+	
+	"container.button.option.low" : "Low",
+	"container.button.option.default" : "Default",
+	"container.button.option.high" : "High",
+	"container.button.option.highest" : "Highest",
+	
+	"container.spawner.button.speed" : "Speed",
+	"container.spawner.button.range" : "Range",
+	"container.spawner.button.count" : "Count"
+	
+}
