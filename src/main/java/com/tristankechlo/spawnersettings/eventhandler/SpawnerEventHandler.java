@@ -9,6 +9,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import com.tristankechlo.spawnersettings.config.SpawnerSettingsConfig;
 import com.tristankechlo.spawnersettings.container.SpawnerContainer;
+import com.tristankechlo.spawnersettings.util.Reference;
 import com.tristankechlo.spawnersettings.util.SpawnerData;
 
 import net.minecraft.block.Block;
@@ -25,6 +26,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.network.play.server.STitlePacket;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -69,7 +71,7 @@ public class SpawnerEventHandler {
 		if (player == null || world == null) {
 			return;
 		}
-		if (world.isRemote || player.isSpectator() || player.getActiveHand() != Hand.MAIN_HAND) {
+		if (world.isRemote || player.isSpectator() || event.getHand() != Hand.MAIN_HAND) {
 			return;
 		}
 		
@@ -82,18 +84,30 @@ public class SpawnerEventHandler {
 				event.setCanceled(true);
 				return;
 			} else if(item instanceof Item && !(item instanceof BlockItem)) {
+				//check if spawner is occupied and send info-message
+				if(Reference.occupiedSpawners.containsKey(pos)) {
+					if(Reference.occupiedSpawners.get(pos) == true) {
+						((ServerPlayerEntity)player).connection.sendPacket(
+								new STitlePacket(STitlePacket.Type.TITLE, new TranslationTextComponent("spawner.occupied.title"), 10, 100, 10));
+						((ServerPlayerEntity)player).connection.sendPacket(
+								new STitlePacket(STitlePacket.Type.SUBTITLE, new TranslationTextComponent("spawner.occupied.subtitle"), 10, 100, 10));
+						return;
+					}
+				}
+				//open the gui
+				Reference.occupiedSpawners.put(pos, true);
 				SpawnerData.sendSpawnerDataToClient((ServerPlayerEntity)player, world, pos);
 				Inventory inv = SpawnerData.getInvfromSpawner(world, pos);
-				NetworkHooks.openGui((ServerPlayerEntity)player, this.getContainer(inv));
+				NetworkHooks.openGui((ServerPlayerEntity)player, this.getContainer(inv, pos), pos);
 			} else {
 				return;
 			}
 		}
 	}
 
-	private INamedContainerProvider getContainer(Inventory inv) {
+	private INamedContainerProvider getContainer(Inventory inv, BlockPos pos) {
 		return new SimpleNamedContainerProvider((windowID, playerInv, playerEntity) -> {
-			return new SpawnerContainer(windowID, playerInv, inv);
+			return new SpawnerContainer(windowID, playerInv, inv, pos);
 		}, name);
 	}
 
@@ -103,6 +117,10 @@ public class SpawnerEventHandler {
 		final Block targetBlock = event.getState().getBlock();
 		final World world = (World) event.getWorld();
 		final BlockPos pos = event.getPos();
+		
+		if(world.isRemote) {
+			return;
+		}
 
 		if (targetBlock == Blocks.SPAWNER) {
 			if (player.getHeldItemMainhand().getToolTypes().contains(ToolType.PICKAXE)) {

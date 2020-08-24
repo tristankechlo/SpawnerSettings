@@ -6,7 +6,7 @@ showAsResourcePack=false
 
 [[mods]] #mandatory
 modId="spawnersettings" #mandatory
-version="${file.jarVersion}" #mandatory
+version="1.16.2 - 1.0.0" #mandatory
 displayName="Spawner Settings" #mandatory
 #updateJSONURL="http://myurl.me/" #optional
 #displayURL="http://example.com/" #optional
@@ -14,7 +14,7 @@ displayName="Spawner Settings" #mandatory
 #credits="Thanks for this example mod goes to Java" #optional
 authors="Buecher_wurm" #optional
 description='''
-This mod ads the ability to modify a Spawner'''
+This mod adds the ability to modify a Spawner'''
 
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.

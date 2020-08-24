@@ -1,15 +1,49 @@
 {
 	"container.spawner" : "Spawner",
+	"spawner.occupied.title" : "No access!",
+	"spawner.occupied.subtitle" : "This Spawner is currently occupied",
 	
-	"container.button.save" : "Save",
+	"container.button.speed.low" : "Delay: Low",
+	"container.button.speed.default" : "Delay: Default",
+	"container.button.speed.high" : "Delay: High",
+	"container.button.speed.disabled" : "Delay: Disabled",
 	
-	"container.button.option.low" : "Low",
-	"container.button.option.default" : "Default",
-	"container.button.option.high" : "High",
-	"container.button.option.highest" : "Highest",
+	"container.button.count.low" : "Count: Low",
+	"container.button.count.default" : "Count: Default",
+	"container.button.count.high" : "Count: High",
+	"container.button.count.disabled" : "Count: Disabled",
 	
-	"container.spawner.button.speed" : "Speed",
-	"container.spawner.button.range" : "Range",
-	"container.spawner.button.count" : "Count"
+	"container.button.playerRange.low" : "P-Range: Low",
+	"container.button.playerRange.default" : "P-Range: Default",
+	"container.button.playerRange.high" : "P-Range: High",
+	"container.button.playerRange.highest" : "P-Range: Highest",
+	"container.button.playerRange.disabled" : "P-Range: Disabled",
 	
+	"container.button.spawnRange.low" : "S-Range: Low",
+	"container.button.spawnRange.default" : "S-Range: Default",
+	"container.button.spawnRange.high" : "S-Range: High",
+	"container.button.spawnRange.disabled" : "S-Range: Disabled",
+	
+	
+	
+	"container.spawner.tooltip.speed.title" : "Spawner Speed",
+	"container.spawner.tooltip.speed.text1" : "This will change the time until",
+	"container.spawner.tooltip.speed.text2" : "the spawner attempts to",
+	"container.spawner.tooltip.speed.text3" : "spawn new mobs",
+	
+	"container.spawner.tooltip.count.title" : "Spawn Count",
+	"container.spawner.tooltip.count.text1" : "This will change the amount",
+	"container.spawner.tooltip.count.text2" : "mobs, that will be spawned",
+	"container.spawner.tooltip.count.text3" : "when the delay is over",
+	
+	"container.spawner.tooltip.playerRange.title" : "Required Player Range",
+	"container.spawner.tooltip.playerRange.text1" : "This will change the radius",
+	"container.spawner.tooltip.playerRange.text2" : "in which the player has to be,",
+	"container.spawner.tooltip.playerRange.text3" : "that the spawner is active",
+	
+	"container.spawner.tooltip.spawnRange.title" : "Spawn Range",
+	"container.spawner.tooltip.spawnRange.text1" : "This will change the radius",
+	"container.spawner.tooltip.spawnRange.text2" : "in which the spawner will attempt",
+	"container.spawner.tooltip.spawnRange.text3" : "to spawn the mobs (only horizontal)"
+
 }

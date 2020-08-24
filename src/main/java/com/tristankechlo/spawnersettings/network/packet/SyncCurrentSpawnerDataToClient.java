@@ -16,8 +16,9 @@ public class SyncCurrentSpawnerDataToClient {
 	private final short spawnCount;
 	private final short maxNearbyEntities;
 	private final short requiredPlayerRange;
+	private final short spawnRange;
 	
-	public SyncCurrentSpawnerDataToClient(BlockPos pos, short delay, short minSpawnDelay, short maxSpawnDelay, short spawnCount, short maxNearbyEntities, short requiredPlayerRange) {
+	public SyncCurrentSpawnerDataToClient(BlockPos pos, short delay, short minSpawnDelay, short maxSpawnDelay, short spawnCount, short maxNearbyEntities, short requiredPlayerRange, short spawnRange) {
 		this.pos = pos;
 		this.delay = delay;
 		this.minSpawnDelay = minSpawnDelay;
@@ -25,6 +26,7 @@ public class SyncCurrentSpawnerDataToClient {
 		this.spawnCount = spawnCount;
 		this.maxNearbyEntities = maxNearbyEntities;
 		this.requiredPlayerRange = requiredPlayerRange;
+		this.spawnRange = spawnRange;
 	}
 	
 	public static void encode (SyncCurrentSpawnerDataToClient msg, PacketBuffer buffer) {
@@ -35,6 +37,7 @@ public class SyncCurrentSpawnerDataToClient {
 		buffer.writeShort(msg.spawnCount);
 		buffer.writeShort(msg.maxNearbyEntities);
 		buffer.writeShort(msg.requiredPlayerRange);
+		buffer.writeShort(msg.spawnRange);
 	}
 	
 	public static SyncCurrentSpawnerDataToClient decode (PacketBuffer buffer) {
@@ -45,7 +48,8 @@ public class SyncCurrentSpawnerDataToClient {
 		short spawnCount = buffer.readShort();
 		short maxNearbyEntities = buffer.readShort();
 		short requiredPlayerRange = buffer.readShort();
-		return new SyncCurrentSpawnerDataToClient(pos, delay, minSpawnDelay, maxSpawnDelay, spawnCount, maxNearbyEntities, requiredPlayerRange);
+		short spawnRange = buffer.readShort();
+		return new SyncCurrentSpawnerDataToClient(pos, delay, minSpawnDelay, maxSpawnDelay, spawnCount, maxNearbyEntities, requiredPlayerRange, spawnRange);
 	}
 	
 
@@ -60,7 +64,7 @@ public class SyncCurrentSpawnerDataToClient {
     		SpawnerData.spawnCount = msg.spawnCount;
     		SpawnerData.maxNearbyEntities = msg.maxNearbyEntities;
     		SpawnerData.requiredPlayerRange = msg.requiredPlayerRange;
-	        	
+    		SpawnerData.spawnRange = msg.spawnRange;	        	
 	    
 		});
 	    context.get().setPacketHandled(true);

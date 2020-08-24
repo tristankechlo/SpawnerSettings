@@ -1,7 +1,7 @@
 package com.tristankechlo.spawnersettings.network;
 
 import com.tristankechlo.spawnersettings.SpawnerSettings;
-import com.tristankechlo.spawnersettings.network.packet.SetNewSpawnerConfig;
+import com.tristankechlo.spawnersettings.network.packet.SyncNewSpawnerConfigToServer;
 import com.tristankechlo.spawnersettings.network.packet.SyncCurrentSpawnerDataToClient;
 
 import net.minecraft.util.ResourceLocation;
@@ -30,9 +30,9 @@ public class SpawnerSettingsPacketHandler {
 
         
         INSTANCE.registerMessage(id++, 
-        		SetNewSpawnerConfig.class, 
-        		SetNewSpawnerConfig::encode, 
-        		SetNewSpawnerConfig::decode, 
-        		SetNewSpawnerConfig::handle);
+        		SyncNewSpawnerConfigToServer.class, 
+        		SyncNewSpawnerConfigToServer::encode, 
+        		SyncNewSpawnerConfigToServer::decode, 
+        		SyncNewSpawnerConfigToServer::handle);
 	}
 }

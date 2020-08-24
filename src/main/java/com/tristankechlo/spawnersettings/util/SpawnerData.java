@@ -1,8 +1,7 @@
 package com.tristankechlo.spawnersettings.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.ArrayList;
+import java.util.List;
 import com.tristankechlo.spawnersettings.network.SpawnerSettingsPacketHandler;
 import com.tristankechlo.spawnersettings.network.packet.SyncCurrentSpawnerDataToClient;
 
@@ -36,8 +35,9 @@ public class SpawnerData {
 	public static short spawnCount;
 	public static short maxNearbyEntities;
 	public static short requiredPlayerRange;
+	public static short spawnRange;
 
-	public SpawnerData(BlockPos pos, short delay, short minSpawnDelay, short maxSpawnDelay, short spawnCount, short maxNearbyEntities, short requiredPlayerRange) {
+	public SpawnerData(BlockPos pos, short delay, short minSpawnDelay, short maxSpawnDelay, short spawnCount, short maxNearbyEntities, short requiredPlayerRange, short spawnRange) {
 		SpawnerData.pos = pos;
 		SpawnerData.delay = delay;
 		SpawnerData.minSpawnDelay = minSpawnDelay;
@@ -45,15 +45,16 @@ public class SpawnerData {
 		SpawnerData.spawnCount = spawnCount;
 		SpawnerData.maxNearbyEntities = maxNearbyEntities;
 		SpawnerData.requiredPlayerRange = requiredPlayerRange;
+		SpawnerData.spawnRange = spawnRange;
 	}
 	
 
 	
 	public static ListNBT createSpawnPotentials(Inventory inventory) {
 		
-		Map<String, Integer> spawn_potentials_map = new HashMap<>();
+		List<ItemStack> spawn_potentials_list = new ArrayList<>();
 		
-		for(int i = 0; i < 9; i++) {
+		for(int i = 0; i < inventory.getSizeInventory(); i++) {
 			Item item = inventory.getStackInSlot(i).getItem();
 			int weight = inventory.getStackInSlot(i).getCount();
 			if(item == Items.AIR || weight < 1) {
@@ -63,24 +64,32 @@ public class SpawnerData {
 				continue;
 			}
 			SpawnEggItem spawnegg = (SpawnEggItem)item;
-			String entity_name = spawnegg.getType(null).getRegistryName().toString();
 	
-			if(spawn_potentials_map.containsKey(entity_name)) {
-				int before = spawn_potentials_map.get(entity_name);
-				int current = before + weight;
-				if(current > 64) {
-					current = 64;
+			for (int j = 0; j < spawn_potentials_list.size(); j++){
+				if(spawn_potentials_list.get(j).getItem() == spawnegg) {
+					int before = spawn_potentials_list.get(j).getCount();
+					if(before < 64) {
+						int missing = 64 - before;
+						if(weight >= missing) {
+							spawn_potentials_list.get(j).setCount(64);
+							weight = weight - missing;
+						} else {
+							spawn_potentials_list.get(j).setCount(before + weight);
+							weight = 0;
+						}
+					}
 				}
-				spawn_potentials_map.put(entity_name, current);
-			} else {
-				spawn_potentials_map.put(entity_name, weight);
 			}
-		    
+			
+			if(weight > 0) {
+				spawn_potentials_list.add(new ItemStack(spawnegg, weight));
+			}
+			
 		}
 
 		ListNBT spawn_potentials = new ListNBT();
 		
-		if(spawn_potentials_map.isEmpty()) {
+		if(spawn_potentials_list.isEmpty()) {
 		    CompoundNBT entity = new CompoundNBT();
 		    entity.putString("id", EntityType.AREA_EFFECT_CLOUD.getRegistryName().toString());
 		    
@@ -91,9 +100,9 @@ public class SpawnerData {
 		    spawn_potentials.add(entry);
 			
 		} else {
-			for (Map.Entry<String, Integer> spawn_potential : spawn_potentials_map.entrySet()) {
-				String entity_name = spawn_potential.getKey();
-				int weight = spawn_potential.getValue();
+			for (ItemStack stack : spawn_potentials_list) {
+				String entity_name = ((SpawnEggItem) stack.getItem()).getType(null).getRegistryName().toString();
+				int weight = stack.getCount();
 			    CompoundNBT entity = new CompoundNBT();
 			    entity.putString("id", entity_name);
 			    
@@ -108,7 +117,7 @@ public class SpawnerData {
 		return spawn_potentials;
 	}
 	
-	public static CompoundNBT createSpawnerNBT(short delay, short minSpawnDelay, short maxSpawnDelay, short spawnCount, short maxNearbyEntities, short requiredPlayerRange) {
+	public static CompoundNBT createSpawnerNBT(short delay, short minSpawnDelay, short maxSpawnDelay, short spawnCount, short maxNearbyEntities, short requiredPlayerRange, short spawnRange) {
 		CompoundNBT nbt = new CompoundNBT();
 		nbt.putShort("Delay", delay);
 		nbt.putShort("MinSpawnDelay", minSpawnDelay);
@@ -116,6 +125,7 @@ public class SpawnerData {
 		nbt.putShort("SpawnCount", spawnCount);
 		nbt.putShort("MaxNearbyEntities", maxNearbyEntities);
 		nbt.putShort("RequiredPlayerRange", requiredPlayerRange);
+		nbt.putShort("SpawnRange", spawnRange);
 			
 		return nbt;
 	}
@@ -135,16 +145,17 @@ public class SpawnerData {
 		short spawnCount = nbt.getShort("SpawnCount");
 		short maxNearbyEntities = nbt.getShort("MaxNearbyEntities");
 		short requieredPlayRange = nbt.getShort("RequiredPlayerRange");
+		short spawnRange = nbt.getShort("SpawnRange");
 		
 		SpawnerSettingsPacketHandler.INSTANCE.sendTo(
-			new SyncCurrentSpawnerDataToClient(pos, delay, minSpawnDelay, maxSpawnDelay, spawnCount, maxNearbyEntities, requieredPlayRange),
+			new SyncCurrentSpawnerDataToClient(pos, delay, minSpawnDelay, maxSpawnDelay, spawnCount, maxNearbyEntities, requieredPlayRange, spawnRange),
 			player.connection.getNetworkManager(), 
 			NetworkDirection.PLAY_TO_CLIENT);
 	}
 	
 	public static Inventory getInvfromSpawner (final World world, final BlockPos pos) {
 		
-		Inventory inv = new Inventory(9);
+		Inventory inv = new Inventory(11);
 
 		if(world.getBlockState(pos).getBlock().equals(Blocks.SPAWNER)) {
 			
@@ -158,8 +169,8 @@ public class SpawnerData {
 
 		    if (nbt.contains("SpawnPotentials", 9)) {
 		    	ListNBT listnbt = nbt.getList("SpawnPotentials", 10);
-		    	int min = Math.min(8, listnbt.size());
-		    			    	
+		    	int min = Math.min(11, listnbt.size());
+		    	
 		        for(int i = 0; i < min; ++i) {
 		        	CompoundNBT entry = listnbt.getCompound(i);
 		        	String entity = entry.getCompound("Entity").toString();
