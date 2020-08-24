@@ -16,20 +16,15 @@
 <p><span style="font-size: 18px;"><img src="https://i.imgur.com/KVUDrlp.png" alt="Same chance" width="528" height="117" /></span></p>
 <p><span style="font-size: 18px;">Example 2 - chance twice as high:</span></p>
 <p><span style="font-size: 18px;"><img src="https://i.imgur.com/g1QJ2Kc.png" alt="double chance" width="528" height="117" /></span></p>
-<p>&nbsp;</p>
 <p>&nbsp;<br /><br /></p>
-<blockquote>
 <p><span style="font-size: 18px;">config-file can be found with&nbsp;<strong>/config showfile spawnersettings server</strong></span></p>
-</blockquote>
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><a href="https://bugs.mojang.com/browse/MC-189565" target="_blank" rel="noopener noreferrer"><span style="font-size: 18px;">This bug in Minecraft Vanilla</span></a><span style="font-size: 18px;">&nbsp;can potentially cause some lags</span></p>
 <p><span style="font-size: 18px;">so be carefull with adding these mobs to the spawner</span></p>
 <p>&nbsp;</p>
-<p><span style="font-size: 18px;">- Enderman</span></p>
-<p><span style="font-size: 18px;">- Bee</span></p>
-<p><span style="font-size: 18px;">- Polar Bear</span></p>
-<p><span style="font-size: 18px;">- Wolf</span></p>
-<p><span style="font-size: 18px;">- Zombified Piglin</span></p>
-<p><span style="font-size: 18px;">&nbsp;</span></p>
+<p><span style="font-size: 18px;">- Enderman</span><br/>
+<span style="font-size: 18px;">- Bee</span><br/>
+<span style="font-size: 18px;">- Polar Bear</span><br/>
+<span style="font-size: 18px;">- Wolf</span><br/>
+<span style="font-size: 18px;">- Zombified Piglin</span><br/></p>
