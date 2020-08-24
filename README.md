@@ -20,7 +20,7 @@
 <p><span style="font-size: 18px;">config-file can be found with&nbsp;<strong>/config showfile spawnersettings server</strong></span></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p><a href="https://bugs.mojang.com/browse/MC-189565" target="_blank" rel="noopener noreferrer"><span style="font-size: 18px;">This bug in Minecraft Vanilla</span></a><span style="font-size: 18px;">&nbsp;can potentially cause some lags</span></p>
+<p><a href="https://bugs.mojang.com/browse/MC-189565" target="_blank"><span style="font-size: 18px;">This bug in Minecraft Vanilla</span></a><span style="font-size: 18px;">&nbsp;can potentially cause some lags</span></p>
 <p><span style="font-size: 18px;">so be carefull with adding these mobs to the spawner</span></p>
 <p><span style="font-size: 18px;">- Enderman</span><br/>
 <span style="font-size: 18px;">- Bee</span><br/>
