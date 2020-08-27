@@ -1,7 +1,7 @@
 modLoader="javafml" #mandatory
 loaderVersion="[33,)" #mandatory
 license="All rights reserved"
-issueTrackerURL="http://my.issue.tracker/" #optional
+#issueTrackerURL="http://my.issue.tracker/" #optional
 showAsResourcePack=false
 
 [[mods]] #mandatory
