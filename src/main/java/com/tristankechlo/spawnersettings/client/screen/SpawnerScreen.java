@@ -138,7 +138,7 @@ public class SpawnerScreen extends ContainerScreen<SpawnerContainer> {
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		this.func_230459_a_(matrixStack, mouseX, mouseY);
+		this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
 
 		//tooltip speedbutton
 		if (this.isPointInRegion(9, 42, this.buttonwidth, this.buttonHeight, (double) mouseX, (double) mouseY)) {
